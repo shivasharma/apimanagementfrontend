@@ -1,25 +1,38 @@
 import { useEffect,useState } from "react";
 import { Col, Container,Row,Table,Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 const Dashboard = () => {
 
     const[employees,setEmployees]=useState([]);
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
-
+     const headers={}
     
     useEffect(()=>{ 
         const fetchEmployees = async () => {
-            try{
-                console.log(`process.env.REACT_APP_API_URL  ${process.env.REACT_APP_API_URL}`);
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/all`);
-                const data = await response.json();
-                setEmployees(data);
-                console.log("employees",data);
-            }catch(error){
-                console.log("error",error);
+            try {
+                console.log(`process.env.REACT_APP_API_URL: ${process.env.REACT_APP_API_URL}`);
+                
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL || "https://apimanagement-git-shivathebravo21114-dev.apps.rm3.7wse.p1.openshiftapps.com/api/employees/all"}`,
+                    {
+                        headers: {
+                            // Add custom headers here if needed
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                console.log("Response Data:", response.data);
+                setEmployees(response.data);
+            } catch (error) {
+                console.error("Error fetching employees:", error.message);
+                setError(error.message);
             }
-        }
+        };
         fetchEmployees();
 
     },[])

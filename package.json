@@ -2,7 +2,9 @@
   "name": "employeefrontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://apimanagement-git-shivathebravo21114-dev.apps.rm3.7wse.p1.openshiftapps.com/api/employees",
   "dependencies": {
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "cra-template": "1.2.0",
